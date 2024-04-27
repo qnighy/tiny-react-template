@@ -45,7 +45,7 @@ function App() {
 
 const root = createRoot(/** @type {HTMLElement} */ (document.getElementById("root")));
 root.render(
-  jsx(React.StrictMode, { children: [
+  jsxs(React.StrictMode, { children: [
     jsx(App, {})
   ] })
 );
