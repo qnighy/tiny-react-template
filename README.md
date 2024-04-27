@@ -39,6 +39,33 @@ Alternatively:
 - No preconfigured ESLint. You should ensure [Rules of Hooks](https://react.dev/warnings/invalid-hook-call-warning) yourself.
 - You may also miss several convenience features like hot reloading.
 
+## React JSX guide
+
+The table below assumes the following imports:
+
+```js
+import { jsx, jsxs } from "react/jsx-runtime";
+```
+
+|JSX|Alternative|
+|---|---|
+|`<div />`|`jsx("div", {})`|
+|`<App />`|`jsx(App, {})`|
+|`<div className="foo" />`|`jsx("div", { className: "foo" })`|
+|`<div key="foo" />`|`jsx("div", {}, "foo")`|
+|`<div foo="1" {...props} bar="2" />`|`jsx("div", { foo: "1", ...props, bar: "2" })`|
+|`<div>A</div>`|`jsx("div", { children: "A" })`|
+|`<div><A /></div>`|`jsx("div", { children: jsx(A, {}) })`|
+|`<div>{x}</div>`|`jsx("div", { children: x })`|
+|`<div>Hello, {x}!</div>`|`jsxs("div", { children: ["Hello, ", x, "!"] })`|
+
+Here's the rule of thumb:
+
+- The first argument is a string literal if the tag name is a single lowercase identifier (e.g., `div`). Otherwise, it is an identifier or a member expression (e.g., `App` or `Foo.Bar`).
+- The `key` prop is special; it should be passed as the third argument.
+- Use `jsxs` only when the `children` prop is an array expression without any spread. Conversely, you should use this when the condition is met to suppress the warning regarding the `key` prop.
+- Otherwise, `children` is treated equally to other props.
+
 ## Acknowledgements
 
 Thank you [esm.sh](https://esm.sh/) for providing the browser ESM integration.
